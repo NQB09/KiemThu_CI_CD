@@ -56,7 +56,7 @@ public class LoginTest {
     @Test
     public void testValidLoginShouldSuccess() {
         // Điền tài khoản và mật khẩu đúng của trang SauceDemo
-        loginPage.enterCredentials("standard_user", "secret_sauce");
+        loginPage.enterCredentials("standard_user", "bao123");
         loginPage.clickLogin();
         
         // Kỳ vọng: Đăng nhập thành công, URL có chứa inventory.html
