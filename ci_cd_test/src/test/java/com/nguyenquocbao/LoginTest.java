@@ -22,12 +22,17 @@ public class LoginTest {
         if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--headless"); 
+            // Giả lập User-Agent của người dùng thật để tránh bị Firewall chặn bot
+            firefoxOptions.addPreference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0");
             driver = new FirefoxDriver(firefoxOptions);
         } else {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--headless"); 
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
+            chromeOptions.addArguments("--window-size=1920,1080");
+            // Giả lập User-Agent của người dùng thật để tránh bị Firewall chặn bot
+            chromeOptions.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
             driver = new ChromeDriver(chromeOptions);
         }
 

@@ -28,16 +28,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Bước 3: Kiểm tra ma trận để cài đặt đúng trình duyệt tương ứng
-      - name: Install Browser
-        run: |
-          if [ "${{ matrix.browser }}" = "chrome" ]; then
-            sudo apt-get update
-            sudo apt-get install -y google-chrome-stable
-          elif [ "${{ matrix.browser }}" = "firefox" ]; then
-            sudo apt-get update
-            sudo apt-get install -y firefox
-          fi
+
 
       # Bước 4: Lưu bộ nhớ đệm (Cache) thư viện Maven
       - name: Cache Maven dependencies
