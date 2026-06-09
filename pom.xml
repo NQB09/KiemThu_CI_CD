@@ -37,6 +37,8 @@
   </dependencies>
 
   <build>
+  <sourceDirectory>ci_cd_test/src/main/java</sourceDirectory>
+    <testSourceDirectory>ci_cd_test/src/test/java</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
