@@ -63,6 +63,17 @@ public class LoginTest {
         Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được trang inventory!");
     }
 
+    // KỊCH BẢN 3: ĐĂNG NHẬP ĐÚNG BẰNG TÀI KHOẢN KHÁC
+    @Test
+    public void testAnotherValidLoginShouldSuccess() {
+        // Điền một tài khoản hợp lệ khác của trang SauceDemo (problem_user)
+        loginPage.enterCredentials("problem_user", "secret_sauce");
+        loginPage.clickLogin();
+        
+        // Kỳ vọng: Đăng nhập thành công, URL có chứa inventory.html
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản problem_user đúng nhưng không vào được trang inventory!");
+    }
+
     @AfterMethod
     public void tearDown() {
         if (driver != null) {
