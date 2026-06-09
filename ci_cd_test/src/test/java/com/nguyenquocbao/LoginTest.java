@@ -25,31 +25,42 @@ public class LoginTest {
             driver = new FirefoxDriver(firefoxOptions);
         } else {
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless"); // Giữ nguyên để chạy được trên GitHub Actions
+            chromeOptions.addArguments("--headless"); 
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
             driver = new ChromeDriver(chromeOptions);
         }
 
         driver.manage().window().maximize();
-        
-        // ======= ĐỔI ĐƯỜNG LINK SANG TRANG CỦA TLU =======
         driver.get("https://sinhvien1.tlu.edu.vn/#/login");
-        
         loginPage = new LoginPage(driver);
     }
 
+    // KỊCH BẢN 1: ĐĂNG NHẬP SAI
     @Test
     public void testInvalidLoginShouldFail() {
-        // Thử nghiệm với một tài khoản không tồn tại ngẫu nhiên
-        loginPage.enterCredentials("225112xxxx", "matkhausaichat");
+        // Nhập tài khoản và mật khẩu sai bừa
+        loginPage.enterCredentials("2351067085", "bao0309");
         loginPage.clickLogin();
         
-        // Chờ 2 giây để trang xử lý phản hồi từ server
         try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
         
-        // Kỳ vọng: Đăng nhập thất bại, hệ thống vẫn giữ người dùng ở lại trang login
-        Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng hệ thống không giữ lại trang Login!");
+        // Kỳ vọng: Hệ thống báo lỗi và giữ lại ở trang login
+        Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng không giữ lại ở trang Login!");
+    }
+
+    // KỊCH BẢN 2: ĐĂNG NHẬP ĐÚNG
+    @Test
+    public void testValidLoginShouldSuccess() {
+        // Điền tài khoản và mật khẩu ĐÚNG thật của bạn vào đây để test
+        loginPage.enterCredentials("2351067085", "bao090325");
+        loginPage.clickLogin();
+        
+        // Chờ 3-4 giây vì trang đăng nhập đúng sẽ mất thời gian load vào dashboard bên trong
+        try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
+        
+        // Kỳ vọng: Đăng nhập thành công, URL đã chuyển hướng ra khỏi trang /login
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được bên trong!");
     }
 
     @AfterMethod

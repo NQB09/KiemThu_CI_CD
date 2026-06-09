@@ -56,4 +56,14 @@ public class LoginPage {
             return false;
         }
     }
+
+    public boolean isLoginSuccessful() {
+    try {
+        // Sau khi đăng nhập đúng, URL thường chuyển sang trang chủ /#/dashboard hoặc /#/home
+        // Ở đây chúng ta kiểm tra nếu URL KHÔNG còn chứa chữ "/login" nữa nghĩa là đã vào trong thành công
+        return !driver.getCurrentUrl().contains("/login");
+    } catch (Exception e) {
+        return false;
+    }
+}
 }
