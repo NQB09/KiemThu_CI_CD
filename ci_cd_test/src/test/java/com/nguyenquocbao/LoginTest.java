@@ -37,7 +37,7 @@ public class LoginTest {
         }
 
         driver.manage().window().maximize();
-        driver.get("https://practice.expandtesting.com/login");
+        driver.get("https://www.saucedemo.com/");
         loginPage = new LoginPage(driver);
     }
 
@@ -45,22 +45,22 @@ public class LoginTest {
     @Test
     public void testInvalidLoginShouldFail() {
         // Nhập tài khoản và mật khẩu sai
-        loginPage.enterCredentials("wrongUser", "WrongPassword!");
+        loginPage.enterCredentials("standard_user", "wrong_password");
         loginPage.clickLogin();
         
-        // Kỳ vọng: Hệ thống báo lỗi và giữ lại ở trang login
-        Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng không giữ lại ở trang Login!");
+        // Kỳ vọng: Hệ thống báo lỗi
+        Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng không thấy thông báo lỗi!");
     }
 
     // KỊCH BẢN 2: ĐĂNG NHẬP ĐÚNG
     @Test
     public void testValidLoginShouldSuccess() {
-        // Điền tài khoản và mật khẩu đúng của trang expandtesting
-        loginPage.enterCredentials("practice", "SuperSecretPassword!");
+        // Điền tài khoản và mật khẩu đúng của trang SauceDemo
+        loginPage.enterCredentials("standard_user", "secret_sauce");
         loginPage.clickLogin();
         
-        // Kỳ vọng: Đăng nhập thành công, URL đã chuyển hướng ra khỏi trang /login (vào /secure)
-        Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được bên trong!");
+        // Kỳ vọng: Đăng nhập thành công, URL có chứa inventory.html
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được trang inventory!");
     }
 
     @AfterMethod

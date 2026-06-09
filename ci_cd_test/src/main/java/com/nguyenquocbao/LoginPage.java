@@ -12,16 +12,16 @@ public class LoginPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // 1. Tìm ô nhập Tên đăng nhập / Mã sinh viên (Sử dụng thuộc tính name="username")
-    @FindBy(name = "username")
+    // 1. Tìm ô nhập Tên đăng nhập (SauceDemo dùng name="user-name")
+    @FindBy(name = "user-name")
     private WebElement usernameField;
 
-    // 2. Tìm ô nhập Mật khẩu (Sử dụng thuộc tính name="password")
+    // 2. Tìm ô nhập Mật khẩu (SauceDemo dùng name="password")
     @FindBy(name = "password")
     private WebElement passwordField;
 
-    // 3. Tìm nút Đăng nhập (Sử dụng selector theo class và type của nút)
-    @FindBy(css = "button[type='submit']")
+    // 3. Tìm nút Đăng nhập (SauceDemo dùng id="login-button")
+    @FindBy(id = "login-button")
     private WebElement loginButton;
 
     public LoginPage(WebDriver driver) {
@@ -49,21 +49,18 @@ public class LoginPage {
 
     public boolean isLoginFailed() {
         try {
-            // Chờ tối đa 10s xem URL có còn chứa "/login" sau khi thao tác hay không
-            return wait.until(ExpectedConditions.urlContains("/login"));
+            // SauceDemo hiển thị lỗi với thuộc tính data-test="error"
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(org.openqa.selenium.By.cssSelector("[data-test='error']"))).isDisplayed();
         } catch (org.openqa.selenium.TimeoutException e) {
-            // Quá thời gian mà URL không còn chứa "/login" -> Đã chuyển trang
             return false;
         }
     }
 
     public boolean isLoginSuccessful() {
         try {
-            // Chờ cho đến khi URL KHÔNG CÒN chứa "/login" nữa
-            // Tức là trình duyệt đã chuyển sang trang khác (dashboard, home...)
-            return wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("/login")));
+            // Sau khi đăng nhập thành công, SauceDemo chuyển hướng sang trang /inventory.html
+            return wait.until(ExpectedConditions.urlContains("inventory.html"));
         } catch (org.openqa.selenium.TimeoutException e) {
-            // Quá thời gian mà URL vẫn còn chứa "/login" -> Đăng nhập không thành công
             return false;
         }
     }
