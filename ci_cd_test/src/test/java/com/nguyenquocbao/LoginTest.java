@@ -37,15 +37,15 @@ public class LoginTest {
         }
 
         driver.manage().window().maximize();
-        driver.get("https://sinhvien1.tlu.edu.vn/#/login");
+        driver.get("https://practice.expandtesting.com/login");
         loginPage = new LoginPage(driver);
     }
 
     // KỊCH BẢN 1: ĐĂNG NHẬP SAI
     @Test
     public void testInvalidLoginShouldFail() {
-        // Nhập tài khoản và mật khẩu sai bừa
-        loginPage.enterCredentials("2351067085", "bao0309");
+        // Nhập tài khoản và mật khẩu sai
+        loginPage.enterCredentials("wrongUser", "WrongPassword!");
         loginPage.clickLogin();
         
         // Kỳ vọng: Hệ thống báo lỗi và giữ lại ở trang login
@@ -55,11 +55,11 @@ public class LoginTest {
     // KỊCH BẢN 2: ĐĂNG NHẬP ĐÚNG
     @Test
     public void testValidLoginShouldSuccess() {
-        // Điền tài khoản và mật khẩu ĐÚNG thật của bạn vào đây để test
-        loginPage.enterCredentials("2351067085", "bao090325");
+        // Điền tài khoản và mật khẩu đúng của trang expandtesting
+        loginPage.enterCredentials("practice", "SuperSecretPassword!");
         loginPage.clickLogin();
         
-        // Kỳ vọng: Đăng nhập thành công, URL đã chuyển hướng ra khỏi trang /login
+        // Kỳ vọng: Đăng nhập thành công, URL đã chuyển hướng ra khỏi trang /login (vào /secure)
         Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được bên trong!");
     }
 
