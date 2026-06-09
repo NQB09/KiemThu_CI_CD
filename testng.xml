@@ -3,7 +3,7 @@
 <suite name="Hệ Thống Kiểm Thử Local">
     <test name="Kiểm Thử Đăng Nhập SauceDemo">
         <classes>
-            <class name="tests.LoginTest"/>
+            <class name="com.nguyenquocbao.LoginTest"/>
         </classes>
     </test>
 </suite>

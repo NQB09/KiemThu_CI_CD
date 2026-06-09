@@ -49,21 +49,22 @@ public class LoginPage {
 
     public boolean isLoginFailed() {
         try {
-            // Trang này khi đăng nhập sai thường hiện một thông báo lỗi (Toast/Alert)
-            // Hoặc đơn giản là URL vẫn giữ nguyên ở trang /#/login
-            return driver.getCurrentUrl().contains("/login");
-        } catch (Exception e) {
+            // Chờ tối đa 10s xem URL có còn chứa "/login" sau khi thao tác hay không
+            return wait.until(ExpectedConditions.urlContains("/login"));
+        } catch (org.openqa.selenium.TimeoutException e) {
+            // Quá thời gian mà URL không còn chứa "/login" -> Đã chuyển trang
             return false;
         }
     }
 
     public boolean isLoginSuccessful() {
-    try {
-        // Sau khi đăng nhập đúng, URL thường chuyển sang trang chủ /#/dashboard hoặc /#/home
-        // Ở đây chúng ta kiểm tra nếu URL KHÔNG còn chứa chữ "/login" nữa nghĩa là đã vào trong thành công
-        return !driver.getCurrentUrl().contains("/login");
-    } catch (Exception e) {
-        return false;
+        try {
+            // Chờ cho đến khi URL KHÔNG CÒN chứa "/login" nữa
+            // Tức là trình duyệt đã chuyển sang trang khác (dashboard, home...)
+            return wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("/login")));
+        } catch (org.openqa.selenium.TimeoutException e) {
+            // Quá thời gian mà URL vẫn còn chứa "/login" -> Đăng nhập không thành công
+            return false;
+        }
     }
-}
 }

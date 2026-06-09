@@ -43,8 +43,6 @@ public class LoginTest {
         loginPage.enterCredentials("2351067085", "bao0309");
         loginPage.clickLogin();
         
-        try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
-        
         // Kỳ vọng: Hệ thống báo lỗi và giữ lại ở trang login
         Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng không giữ lại ở trang Login!");
     }
@@ -55,9 +53,6 @@ public class LoginTest {
         // Điền tài khoản và mật khẩu ĐÚNG thật của bạn vào đây để test
         loginPage.enterCredentials("2351067085", "bao090325");
         loginPage.clickLogin();
-        
-        // Chờ 3-4 giây vì trang đăng nhập đúng sẽ mất thời gian load vào dashboard bên trong
-        try { Thread.sleep(4000); } catch (InterruptedException e) { e.printStackTrace(); }
         
         // Kỳ vọng: Đăng nhập thành công, URL đã chuyển hướng ra khỏi trang /login
         Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được bên trong!");
