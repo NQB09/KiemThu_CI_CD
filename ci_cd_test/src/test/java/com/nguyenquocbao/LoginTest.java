@@ -48,8 +48,10 @@ public class LoginTest {
         loginPage.enterCredentials("standard_user", "wrong_password");
         loginPage.clickLogin();
         
-        // Kỳ vọng: Hệ thống báo lỗi
-        Assert.assertTrue(loginPage.isLoginFailed(), "Lỗi: Nhập tài khoản sai nhưng không thấy thông báo lỗi!");
+        // Cố tình tạo lỗi để workflow hiện dấu X đỏ (thất bại) trên GitHub
+        // Thay vì kiểm tra xem có báo lỗi hay không, ta sẽ bắt nó phải "đăng nhập thành công"
+        // Điều này là bất khả thi khi nhập sai password -> Test sẽ CHẮC CHẮN THẤT BẠI (X Đỏ)
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Cố tình đánh rớt test: Mong đợi đăng nhập thành công dù nhập sai mật khẩu để tạo X đỏ!");
     }
 
     // KỊCH BẢN 2: ĐĂNG NHẬP ĐÚNG
