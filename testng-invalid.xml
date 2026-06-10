@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Hệ Thống Kiểm Thử Local - Đăng Nhập Sai">
-    <test name="Kiểm Thử Đăng Nhập Sai">
+<suite name="Kiểm Thử Không Hợp Lệ">
+    <test name="Đăng Nhập Sai">
         <classes>
             <class name="com.nguyenquocbao.LoginTest">
                 <methods>
-                    <include name="testInvalidLoginShouldFail"/>
+                    <include name="testInvalidLogin"/>
                 </methods>
             </class>
         </classes>
     </test>
 </suite>
+

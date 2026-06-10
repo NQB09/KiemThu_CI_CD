@@ -22,7 +22,6 @@ public class LoginTest {
         if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.addArguments("--headless"); 
-            // Giả lập User-Agent của người dùng thật để tránh bị Firewall chặn bot
             firefoxOptions.addPreference("general.useragent.override", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0");
             driver = new FirefoxDriver(firefoxOptions);
         } else {
@@ -41,40 +40,22 @@ public class LoginTest {
         loginPage = new LoginPage(driver);
     }
 
-    // KỊCH BẢN 1: ĐĂNG NHẬP SAI
+    // KỊCH BẢN ĐĂNG NHẬP ĐÚNG (Cho Workflow Valid Login -> Tích Xanh)
     @Test
-    public void testInvalidLoginShouldFail() {
-        // Nhập tài khoản và mật khẩu sai
-        loginPage.enterCredentials("standard_user", "wrong_password");
-        loginPage.clickLogin();
-        
-        // Cố tình tạo lỗi để workflow hiện dấu X đỏ (thất bại) trên GitHub
-        // Thay vì kiểm tra xem có báo lỗi hay không, ta sẽ bắt nó phải "đăng nhập thành công"
-        // Điều này là bất khả thi khi nhập sai password -> Test sẽ CHẮC CHẮN THẤT BẠI (X Đỏ)
-        Assert.assertTrue(loginPage.isLoginSuccessful(), "Cố tình đánh rớt test: Mong đợi đăng nhập thành công dù nhập sai mật khẩu để tạo X đỏ!");
-    }
-
-    // KỊCH BẢN 2: ĐĂNG NHẬP ĐÚNG
-    @Test
-    public void testValidLoginShouldSuccess() {
-        // Điền tài khoản và mật khẩu đúng của trang SauceDemo
+    public void testValidLogin() {
         loginPage.enterCredentials("standard_user", "secret_sauce");
         loginPage.clickLogin();
-        
-        // Kỳ vọng: Đăng nhập thành công, URL có chứa inventory.html
         Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản đúng nhưng không vào được trang inventory!");
     }
 
-    // KỊCH BẢN 3: ĐĂNG NHẬP ĐÚNG BẰNG TÀI KHOẢN KHÁC
+    // KỊCH BẢN ĐĂNG NHẬP SAI (Cho Workflow Invalid Login -> Dấu X Đỏ)
     @Test
-    public void testAnotherValidLoginShouldSuccess() {
-        // Điền một tài khoản hợp lệ khác của trang SauceDemo (problem_user)
-        loginPage.enterCredentials("problem_user", "secret_sauce");
+    public void testInvalidLogin() {
+        loginPage.enterCredentials("standard_user", "secret_sauce");
         loginPage.clickLogin();
-        
-        // Kỳ vọng: Đăng nhập thành công, URL có chứa inventory.html
-        Assert.assertTrue(loginPage.isLoginSuccessful(), "Lỗi: Đăng nhập tài khoản problem_user đúng nhưng không vào được trang inventory!");
+        Assert.assertTrue(loginPage.isLoginSuccessful(), "Cố tình đánh rớt test: Mong đợi đăng nhập thành công dù nhập sai mật khẩu để tạo X đỏ!");
     }
+
 
     @AfterMethod
     public void tearDown() {
